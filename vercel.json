@@ -1,0 +1,11 @@
+{
+  "buildCommand": "npm install --legacy-peer-deps && npm run build:web",
+  "outputDirectory": "web-build",
+  "devCommand": "npm run web",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
