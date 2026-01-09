@@ -284,7 +284,6 @@ export default function App() {
           <Text style={styles.roundCompleteText}>Round Complete!</Text>
           <Text style={styles.roundCompleteSubtext}>
             All players have seen the card.{'\n'}
-            The imposter was Player {imposterPlayer}.
           </Text>
           <TouchableOpacity style={styles.newRoundButton} onPress={startNewRound}>
             <Text style={styles.newRoundButtonText}>Start New Round</Text>
