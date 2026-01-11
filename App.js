@@ -216,7 +216,7 @@ export default function App() {
             How many players are playing?
           </Text>
           <View style={styles.playerButtonsContainer}>
-            {[2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+            {[3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
               <TouchableOpacity
                 key={num}
                 style={styles.playerButton}
