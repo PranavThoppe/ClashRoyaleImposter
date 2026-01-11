@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, Alert } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { LinearGradient } from 'expo-linear-gradient';
 
 // All Clash Royale cards from the repository
 const CARD_DATA = [
@@ -203,17 +204,23 @@ export default function App() {
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
+    <View style={[styles.container, { backgroundColor: '#1E5F97' }]}>
+    
+      <StatusBar style="light" />
 
-      <View style={styles.header}>
-        <Text style={styles.title}>Clash Royale Imposter</Text>
-      </View>
+      <LinearGradient
+        colors={['#1a1f2e', '#0f1419', '#1a1f2e']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        style={styles.header}
+      >
+        <Text style={styles.title}>CLASH ROYALE IMPOSTER</Text>
+      </LinearGradient>
 
       {gamePhase === 'setup' && (
         <View style={styles.setupScreen}>
           <Text style={styles.instructions}>
-            How many players are playing?
+            HOW MANY PLAYERS ARE PLAYING?
           </Text>
           <View style={styles.playerButtonsContainer}>
             {[3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
@@ -221,8 +228,16 @@ export default function App() {
                 key={num}
                 style={styles.playerButton}
                 onPress={() => startGame(num)}
+                activeOpacity={0.8}
               >
-                <Text style={styles.playerButtonText}>{num}</Text>
+                <LinearGradient
+                  colors={['#F7C843', '#E5B93A', '#D4A62A']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={styles.playerButtonGradient}
+                >
+                  <Text style={styles.playerButtonText}>{num}</Text>
+                </LinearGradient>
               </TouchableOpacity>
             ))}
           </View>
@@ -231,37 +246,48 @@ export default function App() {
 
       {gamePhase === 'playing' && (
         <View style={styles.gameScreen}>
-          <View style={styles.playerHeader}>
-            <Text style={styles.playerHeaderText}>Player {currentPlayer}</Text>
-          </View>
+          <LinearGradient
+            colors={['#F7C843', '#E5B93A', '#F7C843']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.playerHeader}
+          >
+            <Text style={styles.playerHeaderText}>PLAYER {currentPlayer}</Text>
+          </LinearGradient>
 
           <TouchableOpacity
             style={[styles.cardButton, showCard && styles.cardButtonRevealed]}
             onPress={!showCard ? revealCard : undefined}
             disabled={showCard}
+            activeOpacity={0.9}
           >
-            {showCard ? (
-              <View style={styles.cardContainer}>
-                {currentPlayer === imposterPlayer ? (
-                  <View style={styles.imposterContainer}>
-                    <Text style={styles.imposterText}>You're the Imposter!</Text>
-                    <Text style={styles.imposterSubtext}>
-                      You don't get to see the card.{'\n'}
-                      Try to blend in with the group!
-                    </Text>
-                  </View>
-                ) : (
-                  <>
-                    {currentCard.image && (
-                      <Image source={currentCard.image} style={styles.cardImage} />
-                    )}
-                    <Text style={styles.cardName}>{currentCard.name}</Text>
-                  </>
-                )}
-              </View>
-            ) : (
-              <Text style={styles.revealText}>Tap to Reveal Card</Text>
-            )}
+            <View style={[
+              styles.cardFrame,
+              showCard && currentPlayer === imposterPlayer && styles.cardFrameImposter
+            ]}>
+              {showCard ? (
+                <View style={styles.cardContainer}>
+                  {currentPlayer === imposterPlayer ? (
+                    <View style={styles.imposterContainer}>
+                      <Text style={styles.imposterText}>YOU'RE THE IMPOSTER!</Text>
+                      <Text style={styles.imposterSubtext}>
+                        YOU DON'T GET TO SEE THE CARD.{'\n'}
+                        TRY TO BLEND IN WITH THE GROUP!
+                      </Text>
+                    </View>
+                  ) : (
+                    <>
+                      {currentCard.image && (
+                        <Image source={currentCard.image} style={styles.cardImage} />
+                      )}
+                      <Text style={styles.cardName}>{currentCard.name.toUpperCase()}</Text>
+                    </>
+                  )}
+                </View>
+              ) : (
+                <Text style={styles.revealText}>TAP TO REVEAL CARD</Text>
+              )}
+            </View>
           </TouchableOpacity>
 
           {showCard && (
@@ -269,10 +295,18 @@ export default function App() {
               <TouchableOpacity
                 style={styles.passButton}
                 onPress={passToNextPlayer}
+                activeOpacity={0.8}
               >
-                <Text style={styles.passButtonText}>
-                  {currentPlayer < numPlayers ? 'Pass to Next Player' : 'Complete Round'}
-                </Text>
+                <LinearGradient
+                  colors={['#3b82f6', '#2563eb', '#1e40af']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={styles.passButtonGradient}
+                >
+                  <Text style={styles.passButtonText}>
+                    {currentPlayer < numPlayers ? 'PASS TO NEXT PLAYER' : 'COMPLETE ROUND'}
+                  </Text>
+                </LinearGradient>
               </TouchableOpacity>
             </View>
           )}
@@ -281,12 +315,19 @@ export default function App() {
 
       {gamePhase === 'roundComplete' && (
         <View style={styles.roundCompleteScreen}>
-          <Text style={styles.roundCompleteText}>Round Complete!</Text>
+          <Text style={styles.roundCompleteText}>ROUND COMPLETE!</Text>
           <Text style={styles.roundCompleteSubtext}>
-            All players have seen the card.{'\n'}
+            ALL PLAYERS HAVE SEEN THE CARD.{'\n'}
           </Text>
-          <TouchableOpacity style={styles.newRoundButton} onPress={startNewRound}>
-            <Text style={styles.newRoundButtonText}>Start New Round</Text>
+          <TouchableOpacity style={styles.newRoundButton} onPress={startNewRound} activeOpacity={0.8}>
+            <LinearGradient
+              colors={['#F7C843', '#E5B93A', '#D4A62A']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.newRoundButtonGradient}
+            >
+              <Text style={styles.newRoundButtonText}>START NEW ROUND</Text>
+            </LinearGradient>
           </TouchableOpacity>
         </View>
       )}
@@ -297,19 +338,35 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    width: '100%',
+    height: '100%',
   },
   header: {
-    paddingTop: 50,
+    paddingTop: 40,
     paddingHorizontal: 20,
-    paddingBottom: 20,
-    backgroundColor: '#1e3a8a',
+    paddingBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
+    fontSize: 28,
+    fontWeight: '900',
+    color: '#FFD700',
     textAlign: 'center',
+    textTransform: 'uppercase',
+    letterSpacing: 2,
+    textShadowColor: '#FFA500',
+    textShadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    textShadowRadius: 10,
   },
   setupScreen: {
     flex: 1,
@@ -324,42 +381,88 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   instructions: {
-    fontSize: 18,
+    fontSize: 22,
     textAlign: 'center',
-    marginBottom: 40,
-    lineHeight: 24,
+    marginBottom: 50,
+    lineHeight: 30,
+    fontWeight: '900',
+    color: '#FFFFFF',
+    textTransform: 'uppercase',
+    letterSpacing: 1.5,
+    textShadowColor: '#000',
+    textShadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    textShadowRadius: 8,
   },
   playerButtonsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    gap: 10,
+    gap: 15,
   },
   playerButton: {
-    backgroundColor: '#3b82f6',
-    width: 70,
-    height: 70,
-    borderRadius: 35,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    overflow: 'hidden',
+    margin: 5,
+    shadowColor: '#FFD700',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.6,
+    shadowRadius: 8,
+    elevation: 10,
+  },
+  playerButtonGradient: {
+    width: '100%',
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 5,
+    borderRadius: 40,
+    borderWidth: 3,
+    borderColor: '#FFFFFF',
   },
   playerButtonText: {
-    color: 'white',
-    fontSize: 24,
-    fontWeight: 'bold',
+    color: '#000000',
+    fontSize: 28,
+    fontWeight: '900',
+    textShadowColor: '#FFFFFF',
+    textShadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    textShadowRadius: 3,
   },
   playerHeader: {
-    paddingVertical: 15,
+    paddingVertical: 12,
     paddingHorizontal: 20,
-    backgroundColor: '#1e40af',
     width: '100%',
     alignItems: 'center',
+    shadowColor: '#3b82f6',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
+    elevation: 8,
   },
   playerHeaderText: {
-    color: 'white',
-    fontSize: 28,
-    fontWeight: 'bold',
+    color: '#FFFFFF',
+    fontSize: 32,
+    fontWeight: '900',
+    textTransform: 'uppercase',
+    letterSpacing: 2,
+    textShadowColor: '#000',
+    textShadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    textShadowRadius: 6,
   },
   startButton: {
     backgroundColor: '#dc2626',
@@ -376,84 +479,176 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingTop: 10,
   },
   cardButton: {
-    backgroundColor: '#374151',
-    borderRadius: 15,
-    padding: 20,
+    borderRadius: 25,
+    padding: 4,
     minHeight: 300,
+    maxHeight: 350,
     width: '90%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 30,
+    marginTop: 50,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 6,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowOpacity: 0.4,
+    shadowRadius: 10,
+    elevation: 12,
   },
   cardButtonRevealed: {
-    backgroundColor: '#1f2937',
+    shadowColor: '#FFFFFF',
+    shadowOpacity: 0.3,
+  },
+  cardFrame: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 20,
+    backgroundColor: '#1a1f2e',
+    borderWidth: 4,
+    borderColor: '#FFFFFF',
+    padding: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#FFFFFF',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+  },
+  cardFrameImposter: {
+    borderColor: '#ff1744',
+    borderWidth: 6,
+    shadowColor: '#ff1744',
+    shadowOpacity: 0.5,
+    shadowRadius: 20,
   },
   revealText: {
-    color: 'white',
-    fontSize: 20,
+    color: '#FFFFFF',
+    fontSize: 18,
     textAlign: 'center',
-    fontWeight: 'bold',
+    fontWeight: '900',
+    textTransform: 'uppercase',
+    letterSpacing: 1.5,
+    textShadowColor: '#000',
+    textShadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    textShadowRadius: 6,
   },
   cardContainer: {
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
   },
   cardImage: {
     width: 200,
     height: 200,
     resizeMode: 'contain',
-    marginBottom: 20,
+    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
   },
   cardName: {
-    color: 'white',
-    fontSize: 24,
-    fontWeight: 'bold',
+    color: '#FFFFFF',
+    fontSize: 20,
+    fontWeight: '900',
     textAlign: 'center',
+    textTransform: 'uppercase',
+    letterSpacing: 1.2,
+    textShadowColor: '#000',
+    textShadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    textShadowRadius: 6,
   },
   imposterContainer: {
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 10,
   },
   imposterText: {
-    color: '#ef4444',
-    fontSize: 32,
-    fontWeight: 'bold',
+    color: '#ff1744',
+    fontSize: 22,
+    fontWeight: '900',
     textAlign: 'center',
-    marginBottom: 15,
+    marginBottom: 10,
+    textTransform: 'uppercase',
+    letterSpacing: 1.2,
+    textShadowColor: '#ff1744',
+    textShadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    textShadowRadius: 8,
   },
   imposterSubtext: {
-    color: 'white',
-    fontSize: 18,
+    color: '#FFFFFF',
+    fontSize: 16,
     textAlign: 'center',
-    lineHeight: 24,
+    lineHeight: 22,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+    textShadowColor: '#000',
+    textShadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    textShadowRadius: 4,
   },
   controls: {
-    marginTop: 30,
+    marginTop: 50,
     width: '90%',
+    marginBottom: 20,
   },
   passButton: {
-    backgroundColor: '#3b82f6',
-    paddingHorizontal: 25,
-    paddingVertical: 15,
-    borderRadius: 20,
+    borderRadius: 25,
+    overflow: 'hidden',
     width: '100%',
+    shadowColor: '#3b82f6',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 12,
+  },
+  passButtonGradient: {
+    paddingHorizontal: 30,
+    paddingVertical: 18,
+    borderRadius: 25,
+    borderWidth: 3,
+    borderColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   passButtonText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
+    color: '#FFFFFF',
+    fontSize: 20,
+    fontWeight: '900',
     textAlign: 'center',
+    textTransform: 'uppercase',
+    letterSpacing: 1.5,
+    textShadowColor: '#000',
+    textShadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    textShadowRadius: 6,
   },
   roundCompleteScreen: {
     flex: 1,
@@ -463,27 +658,67 @@ const styles = StyleSheet.create({
   },
   roundCompleteText: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontWeight: '900',
     textAlign: 'center',
     marginBottom: 20,
-    color: '#1e3a8a',
+    color: '#FFD700',
+    textTransform: 'uppercase',
+    letterSpacing: 2.5,
+    textShadowColor: '#FFA500',
+    textShadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    textShadowRadius: 12,
   },
   roundCompleteSubtext: {
-    fontSize: 18,
+    fontSize: 20,
     textAlign: 'center',
-    marginBottom: 40,
-    lineHeight: 24,
-    color: '#374151',
+    marginBottom: 50,
+    lineHeight: 28,
+    color: '#FFFFFF',
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 1.5,
+    textShadowColor: '#000',
+    textShadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    textShadowRadius: 8,
   },
   newRoundButton: {
-    backgroundColor: '#059669',
-    paddingHorizontal: 30,
-    paddingVertical: 15,
-    borderRadius: 25,
+    borderRadius: 30,
+    overflow: 'hidden',
+    shadowColor: '#FFD700',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.6,
+    shadowRadius: 12,
+    elevation: 15,
+  },
+  newRoundButtonGradient: {
+    paddingHorizontal: 40,
+    paddingVertical: 20,
+    borderRadius: 30,
+    borderWidth: 4,
+    borderColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   newRoundButtonText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
+    color: '#000000',
+    fontSize: 22,
+    fontWeight: '900',
+    textTransform: 'uppercase',
+    letterSpacing: 2,
+    textShadowColor: '#FFFFFF',
+    textShadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    textShadowRadius: 4,
   },
 });
